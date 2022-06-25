@@ -2,6 +2,8 @@ FROM python:3-slim
 
 RUN apt-get update
 RUN apt-get upgrade -y
+RUN apt-get install software-properties-common
+RUN apt-get update
 RUN add-apt-repository ppa:nilarimogard/webupd8
 RUN apt-get update
 RUN apt-get install curl streamlink -y
