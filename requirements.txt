@@ -1,1 +1,1 @@
-streamlink==5.4.0
+streamlink==5.5.0
