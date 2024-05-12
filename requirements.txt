@@ -1,1 +1,1 @@
-streamlink==6.7.3
+streamlink==6.7.4
