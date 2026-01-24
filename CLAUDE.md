@@ -13,7 +13,14 @@
 - 前提・仮定・不確実性を明示し、仮定を事実のように扱わない。
 
 ## プロジェクト概要
-- 目的: Record and download live movie by streamlink. Works with Docker (Docker Compose).
+Docker-based tool to record and download live streams using streamlink.
+
+### 技術スタック
+- **言語**: Python
+- **フレームワーク**: streamlink
+- **パッケージマネージャー**: pip
+- **主要な依存関係**:
+  - streamlink==8.1.2
 
 ## 重要ルール
 - 会話言語: 日本語
@@ -42,28 +49,55 @@
 - TypeScript 使用時は `skipLibCheck` で回避しない。
 - 関数やインターフェースには docstring（JSDoc など）を記載する。
 
+### コーディング規約
+- **eslint**: Not applicable
+- **prettier**: Not applicable
+- **typescript**: Not applicable
+
 ## 相談ルール
 - Codex CLI: 実装レビュー、局所設計、整合性確認に使う。
 - Gemini CLI: 外部仕様や最新情報の確認に使う。
 - 他エージェントの指摘は黙殺せず、採用または理由を明記して不採用とする。
 
-## 開発コマンド
+### 開発コマンド
 ```bash
-# 依存関係のインストール
-pip install -r requirements.txt
+# install
+docker-compose up --build
 
-# 開発 / テスト / Lint は README を確認してください
+# dev
+Docker container execution
+
+# build
+docker build
+
+# test
+None
+
+# lint
+None
+
 ```
 
-## アーキテクチャと主要ファイル
+### プロジェクト構造
+**ルートファイル:**
+- `Dockerfile`
+- `docker-compose.yml`
+- `entrypoint.sh`
+- `requirements.txt`
+- `README.md`
+- `LICENSE`
+- `.gitignore`
 
 ## 実装パターン
+- 既存のコードパターンに従う。
+- プロジェクト固有の実装ガイドラインがある場合はそれに従う。
 
 ## テスト
 - 方針: 変更内容に応じてテストを追加する。
 
 ## ドキュメント更新ルール
 - 更新タイミング: 実装確定後、同一コミットまたは追加コミットで更新する。
+- README、API ドキュメント、コメント等は常に最新状態を保つ。
 
 ## 作業チェックリスト
 
@@ -94,3 +128,9 @@ pip install -r requirements.txt
 6. PR 本文の崩れがないことを確認する。
 
 ## リポジトリ固有
+- **docker_support**: True
+- **base_image**: python:3-slim
+- **streaming_framework**: streamlink v8.1.2
+- **deployment**: Docker Compose only
+- **entry_point**: Shell script (entrypoint.sh)
+- **disclaimer**: Developer not responsible for user issues

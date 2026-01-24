@@ -25,3 +25,9 @@
 - ログに機密情報を出力しない。
 
 ## リポジトリ固有
+- **docker_support**: True
+- **base_image**: python:3-slim
+- **streaming_framework**: streamlink v8.1.2
+- **deployment**: Docker Compose only
+- **entry_point**: Shell script (entrypoint.sh)
+- **disclaimer**: Developer not responsible for user issues

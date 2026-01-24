@@ -1,7 +1,7 @@
 # GitHub Copilot Instructions
 
 ## プロジェクト概要
-- 目的: Record and download live movie by streamlink. Works with Docker (Docker Compose).
+Docker-based tool to record and download live streams using streamlink.
 
 ## 共通ルール
 - 会話は日本語で行う。
@@ -12,7 +12,7 @@
 
 ## 技術スタック
 - 言語: Python
-- パッケージマネージャー: pnpm 優先（ロックファイルに従う）。
+- パッケージマネージャー: pip
 
 ## コーディング規約
 - フォーマット: 既存設定（ESLint / Prettier / formatter）に従う。
@@ -23,12 +23,23 @@
 - TypeScript 使用時は strict 前提とし、`skipLibCheck` で回避しない。
 - 関数やインターフェースには docstring（JSDoc など）を記載する。
 
-## 開発コマンド
+### 開発コマンド
 ```bash
-# 依存関係のインストール
-pip install -r requirements.txt
+# install
+docker-compose up --build
 
-# 開発 / テスト / Lint は README を確認してください
+# dev
+Docker container execution
+
+# build
+docker build
+
+# test
+None
+
+# lint
+None
+
 ```
 
 ## テスト方針
@@ -39,5 +50,13 @@ pip install -r requirements.txt
 - ログに機密情報を出力しない。
 
 ## ドキュメント更新
+- 実装確定後、同一コミットまたは追加コミットで更新する。
+- README、API ドキュメント、コメント等は常に最新状態を保つ。
 
 ## リポジトリ固有
+- **docker_support**: True
+- **base_image**: python:3-slim
+- **streaming_framework**: streamlink v8.1.2
+- **deployment**: Docker Compose only
+- **entry_point**: Shell script (entrypoint.sh)
+- **disclaimer**: Developer not responsible for user issues

@@ -15,7 +15,14 @@
 - 日本語と英数字の間には半角スペースを入れる。
 
 ## プロジェクト概要
-- 目的: Record and download live movie by streamlink. Works with Docker (Docker Compose).
+Docker-based tool to record and download live streams using streamlink.
+
+### 技術スタック
+- **言語**: Python
+- **フレームワーク**: streamlink
+- **パッケージマネージャー**: pip
+- **主要な依存関係**:
+  - streamlink==8.1.2
 
 ## コーディング規約
 - フォーマット: 既存設定（ESLint / Prettier / formatter）に従う。
@@ -23,12 +30,23 @@
 - コメント言語: 日本語
 - エラーメッセージ: 英語
 
-## 開発コマンド
+### 開発コマンド
 ```bash
-# 依存関係のインストール
-pip install -r requirements.txt
+# install
+docker-compose up --build
 
-# 開発 / テスト / Lint は README を確認してください
+# dev
+Docker container execution
+
+# build
+docker build
+
+# test
+None
+
+# lint
+None
+
 ```
 
 ## 注意事項
@@ -37,3 +55,9 @@ pip install -r requirements.txt
 - 既存のプロジェクトルールがある場合はそれを優先する。
 
 ## リポジトリ固有
+- **docker_support**: True
+- **base_image**: python:3-slim
+- **streaming_framework**: streamlink v8.1.2
+- **deployment**: Docker Compose only
+- **entry_point**: Shell script (entrypoint.sh)
+- **disclaimer**: Developer not responsible for user issues
