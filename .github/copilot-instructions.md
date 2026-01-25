@@ -28,7 +28,7 @@
 - Bash スクリプトは ShellCheck で検証
 - Dockerfile は Hadolint で検証
 - エラーメッセージは英語で記載
-- コメントは日本語で記載
+- コメントは英語で記載（既存コードに準拠）
 
 ## 開発コマンド
 
@@ -74,7 +74,7 @@ hadolint Dockerfile
 ## リポジトリ固有
 
 - このプロジェクトは Docker での実行を前提としている。
-- 録画ファイルは `/data/recorded/${TARGET}` に保存される。
+- 録画ファイルは `/data/${TARGET}` に保存される。
 - 環境変数 `TARGET`, `URL` は必須。`STREAMLINK_ARG` はオプション。
 - 録画は自動的に再接続し、5秒間隔で再試行する。
 - Renovate による依存関係の自動更新が有効。

@@ -44,7 +44,7 @@ Streamlink を使ったライブストリームの自動録画システム
 
 - **フォーマット**: ShellCheck に準拠
 - **命名規則**: シェルスクリプトの標準的な命名規則に従う
-- **コメント言語**: 日本語
+- **コメント言語**: 英語（既存コードに準拠）
 - **エラーメッセージ言語**: 英語
 - **日本語と英数字の間**: 半角スペースを挿入
 
@@ -116,8 +116,8 @@ hadolint Dockerfile
 
 ### 録画ファイルの保存場所
 
-- コンテナ内: `/data/recorded/${TARGET}`
-- ホスト: `./data/recorded/${TARGET}`（Docker Compose のボリュームマウント）
+- コンテナ内: `/data/${TARGET}`
+- ホスト: `./data/${TARGET}`（Docker Compose のボリュームマウント）
 
 ### CI/CD パイプライン
 

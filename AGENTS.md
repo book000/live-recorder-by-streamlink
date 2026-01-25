@@ -7,7 +7,7 @@
 ## 基本方針
 
 - **会話言語**: 日本語
-- **コメント言語**: 日本語
+- **コメント言語**: 英語（既存コードに準拠）
 - **エラーメッセージ言語**: 英語
 - **コミット規約**: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   - `<type>(<scope>): <description>` 形式
@@ -67,7 +67,7 @@ docker build -t live-recorder .
 
 - Bash スクリプト（`entrypoint.sh`）の変更
   - ShellCheck に準拠したコードを記述
-  - コメントは日本語で記載
+  - コメントは英語で記載（既存コードに準拠）
   - エラーメッセージは英語で記載
 
 - Dockerfile の変更
@@ -104,7 +104,7 @@ docker-compose up
 ## リポジトリ固有
 
 - このプロジェクトは **Docker での実行を前提** としている。ローカル実行は想定していない。
-- 録画ファイルは `/data/recorded/${TARGET}` に保存される。
+- 録画ファイルは `/data/${TARGET}` に保存される。
 - 環境変数:
   - 必須: `TARGET`, `URL`
   - オプション: `STREAMLINK_ARG`

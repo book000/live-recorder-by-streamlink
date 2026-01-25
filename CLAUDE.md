@@ -31,7 +31,7 @@ Claude Code は、すべての判断をレビュー可能な形で記録する�
 - コミット規約: [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   - `<description>` は日本語で記載
   - 例: `feat: 録画品質オプションを追加`
-- コメント言語: 日本語
+- コメント言語: 英語（既存コードに準拠）
 - エラーメッセージ言語: 英語
 - 日本語と英数字の間には半角スペースを挿入
 
@@ -52,7 +52,7 @@ Claude Code は、すべての判断をレビュー可能な形で記録する�
 - Bash スクリプト:
   - ShellCheck に準拠したコードを記述
   - エラーメッセージは英語で記載
-  - コメントは日本語で記載
+  - コメントは英語で記載（既存コードに準拠）
   - 既存のエラーメッセージに絵文字がある場合は、統一して使用
 - Dockerfile:
   - Hadolint のベストプラクティスに従う
@@ -147,7 +147,7 @@ Docker Container
 
 ### 推奨パターン
 
-- ShellCheck の警告を無視しない
+- ShellCheck の警告を可能な限り修正する（正当な理由がある場合のみ disable コメントを使用）
 - Hadolint のベストプラクティスに従う
 - 環境変数の検証を最初に実施
 - エラーハンドリングを適切に実装
@@ -155,7 +155,7 @@ Docker Container
 
 ### 非推奨パターン
 
-- ShellCheck の警告を無効化するコメント（`# shellcheck disable=...`）の安易な使用
+- 理由なく ShellCheck の警告を無効化するコメント（`# shellcheck disable=...`）を使用すること
 - ハードコードされた値（環境変数を使用すべき）
 - エラーハンドリングの欠如
 - センシティブな情報のログ出力
@@ -235,7 +235,7 @@ Docker Container
 ## リポジトリ固有
 
 - このプロジェクトは Docker での実行を前提としている。ローカル実行は想定していない。
-- 録画ファイルは `/data/recorded/${TARGET}` に保存される。
+- 録画ファイルは `/data/${TARGET}` に保存される。
 - 環境変数は必須（`TARGET`, `URL`）とオプション（`STREAMLINK_ARG`）がある。
 - 録画は自動的に再接続し、5秒間隔で再試行する。
 - Streamlink のバージョンは `requirements.txt` で固定されている。
