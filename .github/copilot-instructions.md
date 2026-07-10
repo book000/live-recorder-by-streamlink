@@ -1,81 +1,31 @@
-# GitHub Copilot Instructions
+# GitHub Copilot Code Review Instructions
 
-## プロジェクト概要
+このファイルは GitHub Copilot のコードレビュー機能向けの指示です。レビュー時に重点確認すべき点と、フラグすべきでない既知パターンを定義します。
 
-- 目的: Streamlink を使ったライブストリームの自動録画
-- 主な機能: ライブストリーム URL を監視し、放送を自動的に録画し、切断時には自動的に再接続
-- 対象ユーザー: Docker を使用するライブストリーム録画ユーザー
+## プロジェクト前提
 
-## 共通ルール
+- Streamlink を使ったライブストリームの自動録画システム。Docker 実行専用。
+- 構成要素は 3 つのみ: `entrypoint.sh`（Bash・録画の本体ロジック）、`Dockerfile`、`docker-compose.yml`。
+- 自動テストは無し。品質は CI の静的解析（ShellCheck / Hadolint）で担保する。
 
-- 会話は日本語で行う。
-- PR とコミットは [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) に従う。
-  - `<description>` は日本語で記載する。
-  - 例: `feat: 自動録画機能を追加`
-- 日本語と英数字の間には半角スペースを入れる。
+## レビューで重点確認する点
 
-## 技術スタック
-
-- 言語: Bash (Shell scripting)
-- ランタイム: Python 3 (slim)
-- 主要な依存関係: Streamlink v8.1.2
-- コンテナプラットフォーム: Docker & Docker Compose
-- パッケージマネージャー: pip (Python)
+- **環境変数の検証**: `entrypoint.sh` は処理開始前に必須環境変数（`TARGET`, `URL`）の存在チェックを行う。新規に必須環境変数を追加する変更では、同様の未設定チェックとエラー終了が追加されているか確認する。
+- **エラーハンドリング**: 録画ループの失敗時挙動（再接続・リトライ）を壊していないか。無限ループから抜ける条件を不用意に追加していないか。
+- **ShellCheck 準拠**: `*.sh` の変更は ShellCheck 準拠が必須（CI で強制）。警告を `# shellcheck disable=...` で抑止する変更には正当な理由が必要。理由なき新規 disable コメントはフラグする。
+- **Hadolint 準拠**: `Dockerfile` の変更は Hadolint のベストプラクティスに従う（CI で強制）。
+- **セキュリティ**: 認証情報・URL・個人情報をログや標準出力へ出していないか。環境変数の値をエコーしていないか。`recorder.env` などの機密ファイルをコミットに含めていないか。
 
 ## コーディング規約
 
-- フォーマット: ShellCheck に準拠
-- Bash スクリプトは ShellCheck で検証
-- Dockerfile は Hadolint で検証
-- エラーメッセージは英語で記載
-- コメントは英語で記載（既存コードに準拠）
+- エラーメッセージ・コードコメントは英語（既存コードに準拠）。
+- コミットは [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)、`<description>` は日本語。
+- 日本語と英数字の間には半角スペースを入れる。
 
-## 開発コマンド
+## フラグすべきでない既知パターン（誤検知防止）
 
-```bash
-# Docker イメージのビルド
-docker build -t live-recorder .
-
-# Docker Compose での起動
-docker-compose up -d
-
-# ログの確認
-docker-compose logs -f
-
-# コンテナの停止
-docker-compose down
-
-# ShellCheck によるシェルスクリプトの検証
-shellcheck entrypoint.sh
-
-# Hadolint による Dockerfile の検証
-hadolint Dockerfile
-```
-
-## テスト方針
-
-- テストフレームワーク: なし（自動テストは実装されていない）
-- 品質保証: CI/CD パイプライン（ShellCheck, Hadolint）による静的解析
-- 動作確認: Docker コンテナを起動し、実際のストリーム URL で録画が正常に動作することを確認
-
-## セキュリティ / 機密情報
-
-- 環境変数は `recorder.env` で管理し、Git にコミットしない。
-- API キーや認証情報をログに出力しない。
-- `recorder.env` は `.gitignore` に含まれている。
-
-## ドキュメント更新
-
-- `README.md`: 機能追加時や使用方法の変更時
-- `requirements.txt`: Python 依存関係の変更時
-- `Dockerfile`: ベースイメージやインストール手順の変更時
-- `docker-compose.yml`: サービス設定の変更時
-
-## リポジトリ固有
-
-- このプロジェクトは Docker での実行を前提としている。
-- 録画ファイルは `/data/${TARGET}` に保存される。
-- 環境変数 `TARGET`, `URL` は必須。`STREAMLINK_ARG` はオプション。
-- 録画は自動的に再接続し、5秒間隔で再試行する。
-- Renovate による依存関係の自動更新が有効。
-- Renovate が作成した PR に対しては、追加のコミットや変更を行わない。
+- **`while :; do ... sleep 5; done` の無限ループ**: 切断時の自動再接続のための意図的な設計。「無限ループ」「終了条件が無い」として指摘しない。
+- **`streamlink ... ${STREAMLINK_ARG} ...` 直前の `# shellcheck disable=SC2086`**: `STREAMLINK_ARG` を複数引数として意図的に単語分割している。SC2086 の指摘は不要。
+- **`Dockerfile` の `python:3-slim`（ダイジェスト・パッチ版未固定）**: 常に最新の Python 3 slim を追随する方針で意図的に固定していない。「ベースイメージのバージョン未固定」として指摘しない。
+- **`Dockerfile` の `# hadolint ignore=DL3008`（apt パッケージのバージョン未固定）**: 意図的な ignore。指摘しない。
+- **Streamlink のバージョン**: `requirements.txt` で固定し、更新は Renovate に委ねる。バージョン番号自体の値についての指摘は不要。
