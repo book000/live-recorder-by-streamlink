@@ -1,1 +1,1 @@
-streamlink==8.6.2
+streamlink==8.6.3
