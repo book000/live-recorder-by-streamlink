@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   recorder:
-    build: src/
+    build: .
     volumes:
       - data:/data
     env_file:
