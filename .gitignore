@@ -1,3 +1,2 @@
 recorder.env
 data/*
-!src/data/.gitkeep
