@@ -6,10 +6,12 @@ A Docker image that records a live stream with [Streamlink](https://streamlink.g
 
 `entrypoint.sh` requires the `TARGET` and `URL` environment variables (it exits with an error if either is unset), then loops forever:
 
-1. Run `streamlink --default-stream best -o "/data/${TARGET}/{title}.mp4" ${STREAMLINK_ARG} "${URL}"`.
+1. Run `streamlink --default-stream best -o "/data/${TARGET}/{time:%Y%m%d-%H%M%S}-{id}-{title}.mp4" ${STREAMLINK_ARG} "${URL}"`.
 2. Wait 5 seconds and run it again, whether Streamlink succeeded or failed.
 
 Recordings are written to `/data/${TARGET}/` inside the container, so mount a volume on `/data` to keep them.
+
+Each run writes a new file named `<start time>-<stream ID>-<title>.mp4`, so existing recordings are never overwritten. A reconnect to the same broadcast starts a new file, so one broadcast can be split across several files.
 
 ## Environment variables
 
