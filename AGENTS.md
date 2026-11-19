@@ -23,7 +23,7 @@ docker build -t live-recorder .
 
 ## Structure
 
-- `entrypoint.sh`: the whole recording logic. It requires `TARGET` and `URL` (exits 1 if unset), accepts optional `STREAMLINK_ARG`, creates `/data/${TARGET}`, then loops `streamlink --default-stream best -o "/data/${TARGET}/{title}.mp4" ...` with a 5-second sleep between runs.
+- `entrypoint.sh`: the whole recording logic. It requires `TARGET` and `URL` (exits 1 if unset), accepts optional `STREAMLINK_ARG`, creates `/data/${TARGET}`, then loops `streamlink --default-stream best -o "/data/${TARGET}/{time:%Y%m%d-%H%M%S}-{id}-{title}.mp4" ...` with a 5-second sleep between runs.
 - `Dockerfile`: `python:3-slim` plus curl, `requirements.txt` (pins Streamlink, updated by Renovate), and `entrypoint.sh` as the entrypoint.
 - `docker-compose.yml`: example service using `recorder.env` (git-ignored) and a bind-mounted `data` volume.
 - `.github/workflows/`: `shell-ci.yml` (ShellCheck on changed `*.sh`), `hadolint-ci.yml`, `docker.yml` (build and publish through `book000/templates`), `add-reviewer.yml`.

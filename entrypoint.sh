@@ -27,6 +27,6 @@ fi
 
 while :; do
   # shellcheck disable=SC2086
-  streamlink --default-stream best -o "${OUTPUT_DIR}/{title}.mp4" ${STREAMLINK_ARG} "${URL}"
+  streamlink --default-stream best -o "${OUTPUT_DIR}/{time:%Y%m%d-%H%M%S}-{id}-{title}.mp4" ${STREAMLINK_ARG} "${URL}"
   sleep 5
 done
