@@ -3,7 +3,7 @@ FROM python:3-slim
 # hadolint ignore=DL3008
 RUN apt-get update && \
   apt-get upgrade -y && \
-  apt-get install curl --no-install-recommends -y && \
+  apt-get install curl ffmpeg --no-install-recommends -y && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
