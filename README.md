@@ -2,6 +2,8 @@
 
 A Docker image that records a live stream with [Streamlink](https://streamlink.github.io/) and keeps reconnecting when the stream drops.
 
+The image includes FFmpeg so Streamlink can mux supported streams with separate video and audio tracks.
+
 ## How it works
 
 `entrypoint.sh` requires the `TARGET` and `URL` environment variables (it exits with an error if either is unset), then loops forever:
