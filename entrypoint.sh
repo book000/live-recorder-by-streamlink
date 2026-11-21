@@ -15,11 +15,6 @@ if [[ -z "${STREAMLINK_ARG}" ]]; then
   STREAMLINK_ARG=""
 fi
 
-RECORDED_FILE="/data/recorded/${TARGET}"
-if [[ ! -d $(dirname "${RECORDED_FILE}") ]]; then
-  mkdir -p "$(dirname "${RECORDED_FILE}")"
-fi
-
 OUTPUT_DIR="/data/${TARGET}"
 if [[ ! -d "${OUTPUT_DIR}" ]]; then
   mkdir -p "${OUTPUT_DIR}"
