@@ -11,6 +11,8 @@ The image includes FFmpeg so Streamlink can mux supported streams with separate 
 1. Run `streamlink --default-stream best -o "/data/${TARGET}/{time:%Y%m%d-%H%M%S}-{id}-{title}.mp4" ${STREAMLINK_ARG} "${URL}"`.
 2. Wait 5 seconds and run it again, whether Streamlink succeeded or failed.
 
+On `TERM` or `INT`, the entrypoint forwards the signal to Streamlink and waits for it to exit without reconnecting. A stop during the reconnect delay ends the delay promptly. Allow enough container stop grace time for Streamlink to finish cleaning up.
+
 Recordings are written to `/data/${TARGET}/` inside the container, so mount a volume on `/data` to keep them.
 
 Each run writes a new file named `<start time>-<stream ID>-<title>.mp4`, so existing recordings are never overwritten. A reconnect to the same broadcast starts a new file, so one broadcast can be split across several files.
